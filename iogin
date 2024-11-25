@@ -1,0 +1,59 @@
+<?php
+$host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "armin";
+
+$conn = new mysqli("localhost", "root", "", "armin");
+
+if ($conn->connect_error) {
+    die("خطا در اتصال به پایگاه داده: " .$conn->connect_error);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+     
+    $name=$conn->real_escape_string($name);
+    $password=$conn->real_escape_string($password);
+
+
+
+
+    $sql = "SELECT *  FROM users  WHERE name='$name' AND password='$password' ";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0)   {
+
+    echo "نام کاربری یا رمز عبور اشتباه است!" ;
+
+
+} else {
+
+    echo "ورود موفقیت امیز بود!" ;   
+
+}
+}
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title> فرم ورود </title>
+</head>
+<body>
+    <h2> فرم ورود </h2>
+    <form method="POST" action="">
+     <label for="username">نام</label>
+    <input type="text" id="username" name="name" required><br><br>
+   
+      <label for="password">رمز عبور </label> 
+   <input type="password"  id="password" name="password" required><br><br>
+    
+    <button type="submit">افزودن</button>
+</form>
+</body>
+</html>
